@@ -15,7 +15,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("api/example", () =>
+app.MapGet("api/example", (HttpContext httpContext) =>
 {
     var data = new[]
     {
