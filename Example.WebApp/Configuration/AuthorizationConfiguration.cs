@@ -8,9 +8,9 @@ namespace Example.WebApp.Configuration
         {
             services.AddAuthorization(options =>
             {
-                options.FallbackPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
+                //options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                //    .RequireAuthenticatedUser()
+                //    .Build();
             });
 
             return services;

@@ -5,15 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAppAuthentication(builder.Configuration);
 builder.Services.AddAppAuthorization();
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
-});
+builder.Services.AddAppCors();
 
 builder.Services.AddAppSwagger();
 builder.Services.AddEndpointsApiExplorer();
@@ -30,10 +22,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
-app
-    .MapGetExampleRoute()
-    .MapGetUserInfoRoute();
+app.MapGetExampleRoute();
+app.MapGetUserInfoRoute();
 
 app.Run();

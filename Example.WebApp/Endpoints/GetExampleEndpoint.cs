@@ -6,7 +6,7 @@ namespace Example.WebApp.Endpoints
     {
         public static IEndpointRouteBuilder MapGetExampleRoute(this IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapGet("api/example", GetExampleData).RequireAuthorization();
+            endpoints.MapGet("api/example", GetExampleData);
 
             return endpoints;
         }
