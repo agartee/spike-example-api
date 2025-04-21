@@ -30,7 +30,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-app.MapGetExampleRoute();
+//app.UseHttpsRedirection();
+
+app
+    .MapGetExampleRoute()
+    .MapGetUserInfoRoute();
 
 app.Run();
