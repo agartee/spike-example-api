@@ -3,6 +3,8 @@ using Example.WebApp.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddDomainServices();
 builder.Services.AddAppAuthentication(builder.Configuration);
 builder.Services.AddAppAuthorization();
 builder.Services.AddAppCors();
@@ -22,9 +24,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
-app.MapGetExampleRoute();
-app.MapGetUserInfoRoute();
+app.MapGetPeople();
+app.MapGetUserInfo();
 
 app.Run();
