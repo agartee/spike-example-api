@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Example.WebApp.Handlers
 {
@@ -11,9 +12,13 @@ namespace Example.WebApp.Handlers
             httpContext = httpContextAccessor.HttpContext ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
 
-        public IEnumerable<Claim> Handle()
+        public IResult Handle()
         {
-            return httpContext.User.Claims;
+            var claims = httpContext.User.Claims
+                .Select(c => new { c.Type, c.Value })
+                .ToList();
+
+            return Results.Ok(claims);
         }
     }
 }

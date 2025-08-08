@@ -11,7 +11,7 @@ namespace Example.WebApp.Handlers
             httpContext = httpContextAccessor.HttpContext ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
 
-        public IEnumerable<Person> Handle()
+        public IResult Handle()
         {
             var user = httpContext.User;
 
@@ -21,7 +21,7 @@ namespace Example.WebApp.Handlers
                 new Person { Id = Guid.NewGuid(), FirstName = "Jane", LastName = "Doe" },
             };
 
-            return data;
+            return Results.Ok(data);
         }
     }
 }
