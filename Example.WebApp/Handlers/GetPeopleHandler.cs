@@ -13,6 +13,8 @@ namespace Example.WebApp.Handlers
 
         public IEnumerable<Person> Handle()
         {
+            var user = httpContext.User;
+
             var data = new[]
             {
                 new Person { Id = Guid.NewGuid(), FirstName = "John", LastName = "Doe" },
