@@ -1,0 +1,15 @@
+{
+  "solutionFile": "spike-example-api.sln",
+  "userSecretsId": "examples",
+  "webApp": {
+    "name": "Example.WebApp",
+    "projectFile": "src/Example.WebApp/Example.WebApp.csproj"
+  },
+  "docker": {
+    "imageName": "spike-example",
+    "containerName": "spike-example",
+    "tagName": "dev",
+    "pfxFile": "Example.WebApp.pfx",
+    "pfxPassword": "password"
+  }
+}
