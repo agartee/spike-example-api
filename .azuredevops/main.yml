@@ -1,0 +1,60 @@
+trigger:
+  branches:
+    include:
+    - main
+  tags:
+    exclude:
+    - '*'
+
+stages:
+  - stage: BuildTestPublish
+    displayName: 'Build+Test+Publish'
+    jobs:   
+
+    - job: BuildTestPublishJob
+      pool:
+        vmImage: 'ubuntu-latest'
+
+      variables:
+      - name: buildConfiguration
+        value: 'Release'
+
+      steps:
+      - task: UseDotNet@2
+        inputs:
+          packageType: 'sdk'
+          version: '9.0.x'
+
+      - script: dotnet restore
+        displayName: 'Restore NuGet packages'
+
+      - script: dotnet build --configuration $(buildConfiguration) --no-restore
+        displayName: 'Build'
+
+      - task: DotNetCoreCLI@2
+        displayName: '.NET Core Publish'
+        inputs:
+          command: 'publish'
+          projects: 'Example.WebApp\Example.WebApp.csproj'
+          arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/.publish'
+          zipAfterPublish: true
+
+      - publish: $(Build.ArtifactStagingDirectory)/.publish
+        artifact: WebApp
+        displayName: 'Publish Artifact'
+
+      - task: DownloadBuildArtifacts@1
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'WebApp'
+          downloadPath: '$(System.ArtifactsDirectory)'
+
+      - task: AzureWebApp@1
+        displayName: 'Deploy to Azure Web App'
+        inputs:
+          azureSubscription: 'Spike Service Connection'
+          appType: 'webAppLinux'
+          appName: 'gartee-api-spike'
+          package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+          runtimeStack: 'DOTNETCORE|9.0'
